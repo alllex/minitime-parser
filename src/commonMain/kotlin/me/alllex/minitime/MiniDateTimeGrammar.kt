@@ -3,38 +3,6 @@ package me.alllex.minitime
 import me.alllex.parsus.parser.*
 import me.alllex.parsus.token.*
 
-fun main() {
-    val input = "12:34"
-    val result = MiniDateTimeGrammar().parseOrThrow(input)
-    println(result)
-    // MiniDateTime(date=null, time=MiniTime(hour=12, minute=34))
-
-    fun parse(s: String) = MiniDateTimeGrammar().parseOrThrow(s)
-    println(parse("09/01/2007 9:42 am"))
-    println(parse("2077-12-10 5:25"))
-
-    fun parseEu(s: String) =
-        MiniDateTimeGrammar(dayThenMonth = true).run { parseOrThrow(d2d2yyyy, s) }
-
-    fun parseUs(s: String) =
-        MiniDateTimeGrammar(dayThenMonth = false).run { parseOrThrow(d2d2yyyy, s) }
-
-    println(parseEu("09/01/2007"))
-    // MiniDate(year=2007, month=1, dayOfMonth=9)
-
-    println(parseUs("09/01/2007"))
-    // MiniDate(year=2007, month=9, dayOfMonth=1)
-}
-
-
-data class MiniDateTime(val date: MiniDate? = null, val time: MiniTime? = null) {
-    constructor(time: MiniTime) : this(null, time)
-}
-
-data class MiniDate(val year: Int, val month: Int = 1, val dayOfMonth: Int = 1)
-
-data class MiniTime(val hour: Int, val minute: Int = 0)
-
 
 @Suppress("MemberVisibilityCanBePrivate")
 class MiniDateTimeGrammar(

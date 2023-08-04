@@ -19,8 +19,10 @@ kotlin {
         }
     }
     js(IR) {
+        binaries.executable()
         browser()
         nodejs()
+        generateTypeScriptDefinitions()
     }
     val hostOs = System.getProperty("os.name")
     @Suppress("UNUSED_VARIABLE")

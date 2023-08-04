@@ -4,18 +4,41 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 import me.alllex.parsus.parser.*
 
+fun main() {
+    val input = "12:34"
+    val result = MiniDateTimeGrammar().parseOrThrow(input)
+    println(result)
+    // MiniDateTime(date=null, time=MiniTime(hour=12, minute=34))
+
+    fun parse(s: String) = MiniDateTimeGrammar().parseOrThrow(s)
+    println(parse("09/01/2007 9:42 am"))
+    println(parse("2077-12-10 5:25"))
+
+    fun parseEu(s: String) =
+        MiniDateTimeGrammar(dayThenMonth = true).run { parseOrThrow(d2d2yyyy, s) }
+
+    fun parseUs(s: String) =
+        MiniDateTimeGrammar(dayThenMonth = false).run { parseOrThrow(d2d2yyyy, s) }
+
+    println(parseEu("09/01/2007"))
+    // MiniDate(year=2007, month=1, dayOfMonth=9)
+
+    println(parseUs("09/01/2007"))
+    // MiniDate(year=2007, month=9, dayOfMonth=1)
+}
+
 class MiniDateTimeGrammarTest {
 
     @Test
     fun test1() {
         checkParsing(
             listOf("12:34"),
-            MiniDateTime(MiniTime(12, 34))
+            MiniDateTime(time = MiniTime(12, 34))
         )
 
         checkParsing(
             listOf("05:9"),
-            MiniDateTime(MiniTime(5, 9))
+            MiniDateTime(time = MiniTime(5, 9))
         )
     }
 
@@ -23,7 +46,7 @@ class MiniDateTimeGrammarTest {
     fun test2() {
         checkParsing(
             listOf("3pm", "3 pm", "3:00pm", "3:00 pm"),
-            MiniDateTime(MiniTime(15, 0))
+            MiniDateTime(time = MiniTime(15, 0))
         )
     }
 
