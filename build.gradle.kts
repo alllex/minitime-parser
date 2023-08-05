@@ -3,7 +3,7 @@ plugins {
 }
 
 group = "me.alllex.minitime"
-version = "0.1.0"
+version = "0.1.1-SNAPSHOT"
 
 java.toolchain.languageVersion = JavaLanguageVersion.of(17)
 
